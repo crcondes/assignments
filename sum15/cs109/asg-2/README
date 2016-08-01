@@ -1,0 +1,30 @@
+README
+Makefile
+bigint{.h|.cpp}
+debug{.h|.cpp}
+general{.h|.cpp}
+iterstack.h
+libfns{.h|.cpp}
+main.cpp
+relops.h
+scanner{.h|.cpp}
+ubigint{.h|.cpp}
+
+------------------------------------------------------------------------
+BUGS:
+
+addition: 		none
+
+subtraction:	none
+
+division: 		- multiply_by_two works
+				- divide_by_two works unless dividing a single-digit #
+
+
+multiplication:	trailing 0's aren't getting removed
+				-1 * -5 = -5
+				-16 * 2 = 032 (should be negative)
+
+power:			- nothing works (not yet implemented)
+
+modulo:			- nothing works (not yet implemented)

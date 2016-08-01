@@ -110,6 +110,8 @@ ubigint ubigint::operator- (const ubigint& that) const {
    return ubigint{result};
 }
 
+// The Egyptian multiplication method was used in this assignment
+
 ubigint ubigint::operator* (const ubigint& that) const {
    int carry;
    int d;

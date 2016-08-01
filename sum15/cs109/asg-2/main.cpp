@@ -28,6 +28,7 @@ using namespace std;
 
 using bigint_stack = iterstack<bigint>;
 
+// do arithmetic using the top two elements on the stack
 void do_arith (bigint_stack& stack, const char oper) {
    if (stack.size() < 2) throw ydc_exn ("stack empty");
    bigint right = stack.top();
@@ -51,22 +52,25 @@ void do_arith (bigint_stack& stack, const char oper) {
    stack.push (result);
 }
 
+// clear the stack
 void do_clear (bigint_stack& stack, const char) {
    DEBUGF ('d', "");
    stack.clear();
 }
 
-
+// duplicate the top element of the stack
 void do_dup (bigint_stack& stack, const char) {
    bigint top = stack.top();
    DEBUGF ('d', top);
    stack.push (top);
 }
 
+// print the whole stack
 void do_printall (bigint_stack& stack, const char) {
    for (const auto &elem: stack) cout << elem << endl;
 }
 
+// print the top element of the stack
 void do_print (bigint_stack& stack, const char) {
    cout << stack.top() << endl;
 }
@@ -81,6 +85,8 @@ void do_quit (bigint_stack&, const char) {
    throw ydc_quit();
 }
 
+// the comments below were for myself to keep track while implementing
+// the diffenerent parts of the program
 using function_t = void (*)(bigint_stack&, const char);
 using fn_map = map<string,function_t>;
 fn_map do_functions = {
@@ -99,7 +105,7 @@ fn_map do_functions = {
    {"q", do_quit},      // works
 };
 
-
+// unchanged
 //
 // scan_options
 //    Options analysis:  The only option is -Dflags. 
@@ -124,7 +130,7 @@ void scan_options (int argc, char** argv) {
    }
 }
 
-
+// unchanged
 //
 // Main function.
 //

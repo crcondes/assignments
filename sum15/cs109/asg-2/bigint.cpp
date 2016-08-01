@@ -1,5 +1,9 @@
 // $Id: bigint.cpp,v 1.73 2015-07-03 14:46:41-07 - - $
 
+// The functions in this file do two things with bigints: call the 
+// appropriate mathematical operation on the ubigints contained within
+// the bigints, and determine the sign of the result.
+
 //---------------------------------------------------------------------
 // Name:       Cecilia Condes
 // ID:         ccondes
@@ -22,10 +26,12 @@ bigint::bigint (long that): uvalue (that), is_negative (that < 0) {
    DEBUGF ('~', this << " -> " << uvalue)
 }
 
+// create a bigint from a ubigint and a boolean 
 bigint::bigint (const ubigint& uvalue, bool is_negative):
                 uvalue(uvalue), is_negative(is_negative) {
 }
 
+// create a bigint from a string
 bigint::bigint (const string& that) {
    is_negative = that.size() > 0 and that[0] == '_';
    uvalue = ubigint (that.substr (is_negative ? 1 : 0));
@@ -35,10 +41,12 @@ bigint bigint::operator+() const {
    return *this;
 }
 
+// unary - operator
 bigint bigint::operator-() const {
    return {uvalue, not is_negative};
 }
 
+// addition
 bigint bigint::operator+ (const bigint& that) const {
    bigint result{};
    // same sign
@@ -57,6 +65,7 @@ bigint bigint::operator+ (const bigint& that) const {
    return result;
 }
 
+// binary - operator
 bigint bigint::operator- (const bigint& that) const {
    bigint result{};
    if(is_negative == that.is_negative){
@@ -74,6 +83,7 @@ bigint bigint::operator- (const bigint& that) const {
    return result;
 }
 
+// multiplication
 bigint bigint::operator* (const bigint& that) const {
    bigint result = uvalue * that.uvalue;
    // result.is_negative = (is_negative == that.is_negative)?  is_negative
@@ -84,7 +94,7 @@ bigint bigint::operator* (const bigint& that) const {
    return result;
    }
 
-
+// division
 bigint bigint::operator/ (const bigint& that) const {
    bigint result = uvalue / that.uvalue;
    result.is_negative = is_negative == that.is_negative ? is_negative
@@ -92,15 +102,18 @@ bigint bigint::operator/ (const bigint& that) const {
    return result;
 }
 
+// modulo
 bigint bigint::operator% (const bigint& that) const {
    bigint result = uvalue % that.uvalue;
    return result;
 }
 
+// test equality
 bool bigint::operator== (const bigint& that) const {
    return is_negative == that.is_negative and uvalue == that.uvalue;
 }
 
+// comparison
 bool bigint::operator< (const bigint& that) const {
    if (is_negative != that.is_negative) return is_negative;
    return is_negative ? uvalue > that.uvalue

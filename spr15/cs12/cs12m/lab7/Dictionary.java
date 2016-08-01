@@ -4,7 +4,7 @@
 // Class:       12M
 // Date:        5.22.15
 // Filename:    Dictionary.java
-// Description: 
+// Description: Dictionary data storage class based on a BST search structure
 //-----------------------------------------------------------------------------
 
 import java.util.*;
@@ -14,7 +14,7 @@ class Dictionary implements DictionaryInterface{
 	// Fields
 	Node root;
 	int num_nodes;
-	Boolean debug;
+	Boolean debug;		// for turning debug print statements on and off
 
 	// Constructor
 	Dictionary(){
@@ -23,6 +23,7 @@ class Dictionary implements DictionaryInterface{
 		debug = false;
 	}
 
+	// the members of the BST are linked nodes
 	private class Node{
 		String key;
 		String value;
@@ -36,15 +37,6 @@ class Dictionary implements DictionaryInterface{
 			right = null;
 		}
 
-		// public String toString(){
-		// 	String s = "";
-
-		// 	if(left != null) s = s+left.key+" <--- ";
-		// 	s = s+key;
-		// 	if(right != null) s = s+" ---> "+right.key;
-
-		// 	return s;
-		// }
 	}
 
 	// Methods
@@ -71,11 +63,7 @@ class Dictionary implements DictionaryInterface{
 		if(debug) System.out.println("lookup() "+key);
 
 		Node n = findNode(key);
-		// if( n==null ){
-		// 	throw new KeyNotFoundException("KeyNotFoundException: key "
-		// 		+key+" not found"); // compareTo() == 0
-		// }
-		if(n==null) return null;
+		if(n == null)  return null; 
 		else return n.value;
 	}
 
@@ -86,17 +74,17 @@ class Dictionary implements DictionaryInterface{
 		if(debug) System.out.println("insert ("+key+", "+value+")");
 
 		Node n = new Node(key, value);
-		Node p = null;
-		Node c = root;
+		Node p = null;	// parent starts out null
+		Node c = root;	// child starts out as root of tree
 
 		// traverse tree until c occupies null position where n should be
 		while( c!=null ){ 	
 			p = c;			
-			// c = (n.key.compareTo(c.key) < 1)?(c.left):(c.right);
+
 			if(n.key.compareTo(c.key) < 0) c = c.left;
 			else if(n.key.compareTo(c.key) > 0) c = c.right;
 			else throw new KeyCollisionException("KeyCollisionException: key "
-				+key+" already exists"); // compareTo() == 0
+				+key+" already exists"); 
 		}
 
 		// tree was empty, n = root

@@ -60,10 +60,7 @@
 #endif
 #ifndef BLACK
 #define BLACK 2
-#endif
-#ifndef BULLSHIT
-#define BULLSHIT 0
-#endif
+#end
 
 void throwException(char* msg);
 
@@ -88,7 +85,7 @@ Graph newGraph(int n){
 	assert(G->adj != NULL);
 	G->color	= calloc(n+1, sizeof(int)); // the colors
 	assert(G->color != NULL);
-	G->discover = calloc(n+1, sizeof(int)); // discooer time
+	G->discover = calloc(n+1, sizeof(int)); // discover time
 	assert(G->discover != NULL);
 	G->finish 	= calloc(n+1, sizeof(int)); // finish times
 	assert(G->finish != NULL);
@@ -160,7 +157,10 @@ void freeGraph(Graph* pG){
 }
 
 // Access fns------------------------------------------------------------------
-// :) - number of vertices
+// :) 
+// getOrder()
+// returns the number of vertices
+// Pre: graph should not be null
 int getOrder(Graph G){
 	if(NULL==G)
 		throwException("Graph Exception: calling getOrder on NULL Graph");
@@ -168,7 +168,10 @@ int getOrder(Graph G){
 	return G->order;
 }
 
-// :) - number of edges
+// :) 
+// getSize()
+// returns the number of edges
+// Pre: graph should not be null
 int getSize(Graph G){
 	if(NULL==G) 
 		throwException("Graph Error: calling getSize on NULL Graph");
@@ -177,6 +180,8 @@ int getSize(Graph G){
 }
 
 // :)
+// getParent()
+// returns the parent of the specified vertex
 // Pre: 1 <= u <= n = getOrder(G)
 int getParent(Graph G, int u){
 	if(u < 1 || u > getOrder(G))
@@ -186,6 +191,8 @@ int getParent(Graph G, int u){
 }
 
 // :)
+// getDiscover()
+// returns the discovery time of the specified vertex
 // Pre: 1 <= u <= n = getOrder(G)
 int getDiscover(Graph G, int u){
 	if(u < 1 || u > getOrder(G))
@@ -195,6 +202,7 @@ int getDiscover(Graph G, int u){
 }
 
 // :)
+// getFinish()
 // Pre: 1 <= u <= n = getOrder(G)
 int getFinish(Graph G, int u){
 	if(u < 1 || u > getOrder(G))
@@ -210,6 +218,8 @@ int getFinish(Graph G, int u){
 // addEdge()
 void addEdge(Graph G, int u, int v){
 	List L = G->adj[u];
+
+	// if the list is not empty, add the edge in the appropriate location
 	if(NULL!=L && length(L) > 0){
 		if(DEBUG) printf("moving to the front\n");
 		moveFront(L);
@@ -223,7 +233,10 @@ void addEdge(Graph G, int u, int v){
 			}
 		else append(L, v);
 	}
+	// otherwise just append it (add it to the empty list)
 	else append(L, v);
+
+	// do the same thing for the reverse edge
 
 	List M = G->adj[v];
 	if(NULL!=M && length(M) > 0){
@@ -282,7 +295,7 @@ void Visit(Graph G, int x, int* t, List Q){
 		if(G->color[get(LX)] == WHITE) {
 			G->parent[get(LX)] = x;
 			// append(Q, x);
-			if(BULLSHIT) printf("parent of %d is %d\n", get(LX), x);
+			if(DEBUG) printf("parent of %d is %d\n", get(LX), x);
 			Visit(G, get(LX), t, Q);
 		}
 	}
@@ -302,14 +315,14 @@ void Visit(Graph G, int x, int* t, List Q){
 							// once, the if condition will always be true
 							// (this node must be removed in DFS)
 		}
-		if(BULLSHIT) {
+		if(DEBUG) {
 			printf("%d finished, stack = ", x);
 			printList(stdout, Q);
 		}
 	}
 	else{
 		prepend(Q, x);
-		if(BULLSHIT) {
+		if(DEBUG) {
 			printf("%d finished, stack = \n", x);
 			printList(stdout, Q);
 		}
@@ -317,6 +330,8 @@ void Visit(Graph G, int x, int* t, List Q){
 }
 
 // :)
+// DFS()
+// perform DFS and discover all of the vertices
 // Pre: length(S) == getOrder(G)
 void DFS(Graph G, List S){
 	if(length(S) != getOrder(G)) 
@@ -341,7 +356,7 @@ void DFS(Graph G, List S){
 	
 	deleteBack(S);
 
-	if(DEBUG || BULLSHIT) {
+	if(DEBUG || DEBUG) {
 		printf("  x:   c   d   f   p\n");
 		for(int i = 1; i <= getOrder(G); ++i){
 			printf("%3d: %3d %3d %3d %3d\n", i, G->color[i], 

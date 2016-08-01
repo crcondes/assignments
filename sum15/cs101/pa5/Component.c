@@ -61,11 +61,6 @@ void printComponents(FILE* out, Graph G, List S){
 		printList(out, strong[i]);
 		// freeList(&strong[i]);
 	}
-
-	// free(&strong);
-	// strong = NULL;
-
-
 	
 }
 

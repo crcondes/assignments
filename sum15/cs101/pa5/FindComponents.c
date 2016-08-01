@@ -62,6 +62,7 @@ void printComponents(FILE* out, Graph G, List S){
 	
 }
 
+// string to int
 int stoi(char* s){
 	int result = 0;
 	for(int i = 0; s[i] != '\0'; ++i)
@@ -71,6 +72,8 @@ int stoi(char* s){
 	return result;
 }
 
+
+// takes an input file specifying a 
 int main(int argc, char *argv[]){
 
 	FILE* in;

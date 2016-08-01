@@ -1,0 +1,24 @@
+README
+Graph.c
+Graph.h
+GraphTest.c
+List.c
+List.h
+Makefile
+
+NOTES
+Graph:
+	-	was copied from pa4 and modified (some methods were added, unnecessary
+		ones were deleted)
+
+test runs:
+	in1:	correct output
+	in2:	correct output, but diff fails. I can't find any extra whitespace
+			characters that shouldn't be there.
+	in3:	correct output
+	in4: 	correct output
+	in5:	correct output
+	in6:	correct output
+
+memory leaks:
+	no memory leaks 

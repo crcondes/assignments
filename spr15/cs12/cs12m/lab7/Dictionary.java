@@ -4,7 +4,7 @@
 // Class:       12M
 // Date:        5.22.15
 // Filename:    Dictionary.java
-// Description: Dictionary data storage class based on a BST search structure
+// Description: Dictionary ADT based on a BST 
 //-----------------------------------------------------------------------------
 
 import java.util.*;
@@ -78,32 +78,34 @@ class Dictionary implements DictionaryInterface{
 		Node c = root;	// child starts out as root of tree
 
 		// traverse tree until c occupies null position where n should be
-		while( c!=null ){ 	
+		while(c != null){ 	
 			p = c;			
 
-			if(n.key.compareTo(c.key) < 0) c = c.left;
-			else if(n.key.compareTo(c.key) > 0) c = c.right;
+			if(n.key.compareTo(c.key) < 0){
+				c = c.left;
+			}
+			else if(n.key.compareTo(c.key) > 0){
+				c = c.right;
+			}
 			else throw new KeyCollisionException("KeyCollisionException: key "
 				+key+" already exists"); 
 		}
 
 		// tree was empty, n = root
-		if( p==null ){
+		if(p == null){
 			root = n; 
 			// if(debug) System.out.println("new node "+n.toString());
 			num_nodes++;
 		}
 
-		// 
+		// otherwise
 		else{
-			// n = (n.key.compareTo(p.key) < 1)?(p.left):(p.right); // or n is child of p
-			
 			if(n.key.compareTo(p.key) < 0) p.left = n;
 			else if(n.key.compareTo(p.key) > 0) p.right = n;
 			else throw new KeyCollisionException("KeyCollisionException: key "
-				+key+" already exists"); // compareTo() == 0
+				+key+" already exists"); 
 			
-			// if(debug) System.out.println("new node "+n.toString());
+			if(debug) System.out.println("new node "+n.toString());
 			num_nodes++;
 		}
 	}
@@ -126,9 +128,15 @@ class Dictionary implements DictionaryInterface{
 		Node c1 = n.left;
 		Node c2 = n.right;
 		// c2 is necessarily greater than c1
-		if(p!=null) p.right = c2;
-		else if(p==null) root = c2;
-		if(c1!=null) merge(c1, c2); // if c1 == null, no merging necessary
+		if(p!=null){
+			p.right = c2;
+		}
+		else if(p==null){
+			root = c2;
+		}
+		if(c1!=null){
+			merge(c1, c2); // if c1 == null, no merging necessary
+		}
 		num_nodes--;
 	}
 
@@ -191,7 +199,6 @@ class Dictionary implements DictionaryInterface{
 		if(n!=null){
 			if(n.left!=null) sb.insert(0, toStringBuffer(n.left));
 			
-			// sb.append(" "+n.key+" "); // one line, key only, for testing
 			sb.append(n.key+" "+n.value+"\n"); // multi-line, k+v
 
 			if(n.right!=null) sb.append(toStringBuffer(n.right));
